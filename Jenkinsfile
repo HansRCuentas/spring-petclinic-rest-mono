@@ -21,21 +21,21 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/devops-mitocode/spring-petclinic-rest.git'
             }
         }*/   
-        stage('Compile') {
-            steps {
-                sh 'mvn clean compile -B -ntp'
-            }
-        }
-        stage('Test') {
+        // stage('Build') {
+        //     steps {
+        //         sh 'mvn clean compile -B -ntp'
+        //     }
+        // }
+        stage('Testing') {
             steps {
                 // sh 'mvn test -B -ntp'
                 sh 'mvn test -Dmaven.test.failure.ignore=true -B -ntp'
             }
-            // post {
-            //     success {
-            //         junit 'target/surefire-reports/*.xml'
-            //     }
-            // }
+            post {
+                success {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
         }
         // stage('Coverage') {
         //     steps {
@@ -47,11 +47,11 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Package') {
-            steps {
-                sh 'mvn package -B -ntp -DskipTests'
-            }
-        }
+        // stage('Package') {
+        //     steps {
+        //         sh 'mvn package -B -ntp -DskipTests'
+        //     }
+        // }
         // stage('Sonarqube') {
         //     steps {
         //         withSonarQubeEnv('sonarqube') {
@@ -88,12 +88,12 @@ pipeline {
         //     }
         // }
     }
-    // post {
-    //     success {
-    //         archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-    //     }
-    //     cleanup {
-    //         cleanWs()
-    //     }
-    // }
+    post {
+        // success {
+        //     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        // }
+        cleanup {
+            cleanWs()
+        }
+    }
 }
