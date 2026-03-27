@@ -26,7 +26,7 @@ pipeline {
         //         sh 'mvn clean compile -B -ntp'
         //     }
         // }
-        stage('Testing') {
+        stage('Junit-Test') {
             steps {
                 // sh 'mvn test -B -ntp'
                 sh 'mvn test -Dmaven.test.failure.ignore=true -B -ntp'
@@ -37,16 +37,16 @@ pipeline {
                 }
             }
         }
-        // stage('Coverage') {
-        //     steps {
-        //         sh 'mvn jacoco:report -B -ntp'
-        //     }
-        //     post {
-        //         success {
-        //             recordCoverage(tools: [[parser: 'JACOCO']])
-        //         }
-        //     }
-        // }
+        stage('Jacoco-Coverage') {
+            steps {
+                sh 'mvn jacoco:report -B -ntp'
+            }
+            post {
+                success {
+                    recordCoverage(tools: [[parser: 'JACOCO']])
+                }
+            }
+        }
         // stage('Package') {
         //     steps {
         //         sh 'mvn package -B -ntp -DskipTests'
