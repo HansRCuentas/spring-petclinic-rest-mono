@@ -47,18 +47,18 @@ pipeline {
                 }
             }
         }
-        // stage('Package') {
-        //     steps {
-        //         sh 'mvn package -B -ntp -DskipTests'
-        //     }
-        // }
-        // stage('Sonarqube') {
-        //     steps {
-        //         withSonarQubeEnv('sonarqube') {
-        //             sh 'mvn sonar:sonar -B -ntp'
-        //         }
-        //     }
-        // }
+        stage('Package') {
+            steps {
+                sh 'mvn package -B -ntp -DskipTests'
+            }
+        }
+        stage('Sonarqube') {
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh 'mvn sonar:sonar -B -ntp'
+                }
+            }
+        }
         // stage("Quality Gate"){
         //     steps{
         //         timeout(time: 2, unit: 'MINUTES') {
