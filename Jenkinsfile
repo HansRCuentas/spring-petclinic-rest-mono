@@ -30,11 +30,11 @@ pipeline {
         //         }
         //     }
         // }
-        // stage('Package') {
-        //     steps {
-        //         sh 'mvn package -B -ntp -DskipTests'
-        //     }
-        // }
+        stage('Package') {
+            steps {
+                sh 'mvn package -B -ntp -DskipTests'
+            }
+        }
         // stage('SonarQube') {
         //     steps {
         //         withSonarQubeEnv('sonarqube'){
