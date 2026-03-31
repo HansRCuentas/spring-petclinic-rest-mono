@@ -79,7 +79,7 @@ pipeline {
                                     "pattern": "target/.*.jar",
                                     "target": "${releaseRepo}/${groupIdPath}/${pom.artifactId}/${pom.version}/",
                                     "regexp": "true",
-                                    "props": "build.url=${RUN_DISPLAY_URL};build.user=${USER}"
+                                    "props": "build.url=${RUN_DISPLAY_URL};build.user=${currentBuild.getBuildCauses()[0].userId}"
                                 }
                             ]
                         }
