@@ -1,34 +1,17 @@
 pipeline {
-    // agent any
-    // tools {
-    //     maven 'maven3.9.11'
-    // }
     agent {
         docker {
             image 'maven:3.9.11-eclipse-temurin-17'
         }
     }
-    // options {
-    //     timeout(time: 5, unit: 'MINUTES')
-    // }
-    // triggers {
-    //     // pollSCM("* * * * *")
-    //     githubPush()
-    // }
     stages {
-        /*stage('Checkout SCM') {
+        stage('Build') {
             steps {
-                git branch: 'master', url: 'https://github.com/devops-mitocode/spring-petclinic-rest.git'
+                sh 'mvn clean compile -B -ntp'
             }
-        }*/   
-        // stage('Build') {
-        //     steps {
-        //         sh 'mvn clean compile -B -ntp'
-        //     }
-        // }
+        }
         stage('Junit-Test') {
             steps {
-                // sh 'mvn test -B -ntp'
                 sh 'mvn test -Dmaven.test.failure.ignore=true -B -ntp'
             }
             post {
@@ -50,20 +33,6 @@ pipeline {
         stage('Package') {
             steps {
                 sh 'mvn package -B -ntp -DskipTests'
-            }
-        }
-        stage('Sonarqube') {
-            steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh 'mvn sonar:sonar -B -ntp'
-                }
-            }
-        }
-        stage("Quality Gate"){
-            steps{
-                timeout(time: 2, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
             }
         }
         stage('SonarQube') {
